@@ -3,158 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLARIS | Arcade</title>
+    <title>SOLARIS | Hub</title>
     <style>
-        /* Base Styling */
+        :root {
+            --solaris-yellow: #ffff00;
+            --bg-dark: #0d0d12;
+            --sidebar-bg: #15151e;
+            --card-bg: #1a1a24;
+        }
+
         body {
-            background-color: #0d0d12;
+            background-color: var(--bg-dark);
             color: white;
-            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-family: 'Impact', sans-serif;
             margin: 0;
-            padding: 0;
+            display: flex; /* This creates the sidebar layout */
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR (Mercury Style) --- */
+        .sidebar {
+            width: 80px;
+            background-color: var(--sidebar-bg);
+            border-right: 2px solid var(--solaris-yellow);
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding-top: 20px;
+            gap: 30px;
         }
 
-        /* The Bold Yellow Header */
-        .header-box {
-            background-color: #ffff00;
-            color: black;
-            padding: 20px 60px;
-            margin-top: 50px;
-            border: 4px solid black;
-            font-size: 4rem;
-            letter-spacing: 2px;
-            box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
-        }
-
-        /* The Search Bar Area */
-        .search-container {
-            width: 80%;
-            max-width: 800px;
-            margin-top: 20px;
-        }
-
-        .search-bar {
-            width: 100%;
-            background-color: #444;
-            color: white;
-            border: 3px solid black;
-            padding: 15px;
+        .nav-icon {
             font-size: 1.5rem;
-            text-align: center;
-            font-family: 'Impact', sans-serif;
-            transition: all 0.3s;
+            color: #666;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .search-bar:focus {
-            outline: none;
-            background-color: #555;
-            border-color: #ffff00;
-            box-shadow: 0 0 15px #ffff00;
+        .nav-icon:hover, .nav-icon.active {
+            color: var(--solaris-yellow);
+            text-shadow: 0 0 10px var(--solaris-yellow);
         }
 
-        /* Divider Line */
-        .divider {
-            width: 100%;
-            height: 4px;
-            background-color: black;
-            margin-top: 30px;
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
         }
 
-        /* Games Section Title */
-        .games-title {
+        .header-logo {
+            background-color: var(--solaris-yellow);
+            color: black;
+            display: inline-block;
+            padding: 10px 40px;
             font-size: 3rem;
-            margin: 30px 0;
-            color: white;
-            text-transform: uppercase;
+            border: 4px solid black;
+            margin-bottom: 20px;
         }
 
-        /* The Modern Grid System */
+        /* Search Bar Logic */
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            background: #222;
+            border: 2px solid #333;
+            padding: 15px;
+            color: white;
+            font-family: 'Impact', sans-serif;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            margin-bottom: 40px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--solaris-yellow);
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.2);
+        }
+
+        /* --- GAME GRID --- */
+        .grid-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--solaris-yellow);
+            padding-left: 15px;
+        }
+
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
-            width: 90%;
-            max-width: 1200px;
-            padding-bottom: 50px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
         }
 
-        /* The Modern Game Cards */
         .game-card {
-            background: #1a1a24;
-            border: 2px solid #333;
-            border-radius: 8px;
+            background: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 10px;
             overflow: hidden;
             text-decoration: none;
             color: white;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
+            transition: 0.3s;
+            text-align: center;
         }
 
         .game-card:hover {
-            transform: scale(1.05);
-            border-color: #ffff00;
-            box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2);
+            transform: translateY(-5px);
+            border-color: var(--solaris-yellow);
         }
 
-        .thumbnail {
-            height: 160px;
+        .thumb {
+            height: 120px;
             background: #252530;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            border-bottom: 2px solid #333;
+            font-size: 2.5rem;
         }
 
-        .game-card:hover .thumbnail {
-            background: #2d2d3d;
-        }
-
-        .game-info {
-            padding: 15px;
-            text-align: center;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
+        .title {
+            padding: 10px;
+            font-size: 1rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="header-box">SOLARIS</div>
-
-    <div class="search-container">
-        <input type="text" class="search-bar" placeholder="SEARCH ON GOOGLE">
+    <div class="sidebar">
+        <div class="nav-icon active">🏠</div>
+        <div class="nav-icon">🎮</div>
+        <div class="nav-icon">⚙️</div>
+        <div class="nav-icon">⭐</div>
     </div>
 
-    <div class="divider"></div>
+    <div class="main-content">
+        <div class="header-logo">SOLARIS</div>
+        
+        <br>
+        
+        <input type="text" id="googleSearch" class="search-box" placeholder="TYPE HERE TO SEARCH GOOGLE...">
 
-    <div class="games-title">GAMES</div>
+        <div class="grid-title">TRENDING GAMES</div>
 
-    <div class="game-grid">
-        <a href="#" class="game-card">
-            <div class="thumbnail">🐍</div>
-            <div class="game-info">SNAKE.IO</div>
-        </a>
-
-        <a href="#" class="game-card">
-            <div class="thumbnail">🎨</div>
-            <div class="game-info">GULPER.IO</div>
-        </a>
-
-        <a href="#" class="game-card">
-            <div class="thumbnail">⚔️</div>
-            <div class="game-info">EV.IO</div>
-        </a>
-
-        <a href="#" class="game-card">
-            <div class="thumbnail">🌌</div>
-            <div class="game-info">ASTEROIDS</div>
-        </a>
+        <div class="game-grid">
+            <a href="#" class="game-card"><div class="thumb">🐍</div><div class="title">SNAKE</div></a>
+            <a href="#" class="game-card"><div class="thumb">🏎️</div><div class="title">DRIFT</div></a>
+            <a href="#" class="game-card"><div class="thumb">📦</div><div class="title">MINECRAFT</div></a>
+            <a href="#" class="game-card"><div class="thumb">🔫</div><div class="title">SHOOTER</div></a>
+            <a href="#" class="game-card"><div class="thumb">🏀</div><div class="title">HOOPS</div></a>
+        </div>
     </div>
+
+    <script>
+        // GOOGLE SEARCH SCRIPT
+        const searchInput = document.getElementById('googleSearch');
+        
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value;
+                if (query) {
+                    // This opens a new tab with your search
+                    window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
