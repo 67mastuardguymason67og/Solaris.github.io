@@ -69,33 +69,15 @@
             width: fit-content;
         }
 
-        .search-box {
-            width: 100%;
-            max-width: 500px;
-            background: #222;
-            border: 2px solid #333;
-            padding: 15px;
-            color: white;
-            font-family: sans-serif;
-            font-size: 1rem;
-            border-radius: 5px;
-            margin-bottom: 25px;
-            outline: none;
-        }
-
-        .search-box:focus {
-            border-color: var(--solaris-yellow);
-        }
-
-        /* --- SEARCH BROWSER AREA --- */
-        #browser-container {
-            display: none; /* Starts hidden */
+        /* --- SEARCH & GAME DISPLAY --- */
+        #display-container {
+            display: none; 
             flex: 1;
             width: 100%;
             height: 100%;
             border: 3px solid var(--solaris-yellow);
             border-radius: 10px;
-            background: white;
+            background: #000;
             overflow: hidden;
         }
 
@@ -105,18 +87,10 @@
             border: none;
         }
 
-        /* --- GAMES SECTION --- */
+        /* --- GAMES GRID --- */
         #games-section {
             display: block;
             overflow-y: auto;
-        }
-
-        .grid-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            border-left: 6px solid var(--solaris-yellow);
-            padding-left: 12px;
-            text-transform: uppercase;
         }
 
         .game-grid {
@@ -129,8 +103,7 @@
             background: var(--card-bg);
             border: 1px solid #333;
             border-radius: 8px;
-            text-decoration: none;
-            color: white;
+            cursor: pointer;
             text-align: center;
             transition: 0.3s;
             overflow: hidden;
@@ -139,7 +112,6 @@
         .game-card:hover {
             border-color: var(--solaris-yellow);
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 255, 0, 0.1);
         }
 
         .thumb { height: 110px; background: #252530; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
@@ -150,62 +122,68 @@
 <body>
 
     <div class="sidebar">
-        <div class="nav-icon active" onclick="goHome()" title="Home">🏠</div>
-        <div class="nav-icon" title="Games">🎮</div>
-        <div class="nav-icon" title="Favorites">⭐</div>
-        <div class="nav-icon" title="Settings">⚙️</div>
+        <div class="nav-icon active" onclick="goHome()">🏠</div>
+        <div class="nav-icon" onclick="goHome()">🎮</div>
     </div>
 
     <div class="main-content">
         <div class="header-logo" onclick="goHome()">SOLARIS</div>
         
-        <input type="text" id="solarisSearch" class="search-box" placeholder="SEARCH DUCKDUCKGO...">
+        <input type="text" id="solarisSearch" style="width:100%; max-width:500px; padding:15px; margin-bottom:20px; background:#222; border:2px solid #333; color:white;" placeholder="SEARCH...">
 
-        <div id="browser-container">
-            <iframe id="searchFrame" src=""></iframe>
+        <div id="display-container">
+            <iframe id="mainFrame" src=""></iframe>
         </div>
 
         <div id="games-section">
-            <div class="grid-title">TRENDING GAMES</div>
+            <h2 style="border-left: 5px solid yellow; padding-left:10px;">GAMES</h2>
             <div class="game-grid">
-                <a href="#" class="game-card"><div class="thumb">🐍</div><div class="title">SNAKE</div></a>
-                <a href="#" class="game-card"><div class="thumb">🏎️</div><div class="title">DRIFT</div></a>
-                <a href="#" class="game-card"><div class="thumb">📦</div><div class="title">BLOCKS</div></a>
-                <a href="#" class="game-card"><div class="thumb">🔫</div><div class="title">EV.IO</div></a>
-                <a href="#" class="game-card"><div class="thumb">⚔️</div><div class="title">ZOMBS</div></a>
-                <a href="#" class="game-card"><div class="thumb">🏀</div><div class="title">HOOPS</div></a>
+                
+                <div class="game-card" onclick="loadGame('https://www.google.com/logos/2010/pacman10-i.html')">
+                    <div class="thumb">🍕</div>
+                    <div class="title">PACMAN</div>
+                </div>
+
+                <div class="game-card" onclick="loadGame('https://play2048.co/')">
+                    <div class="thumb">🔢</div>
+                    <div class="title">2048</div>
+                </div>
+
+                <div class="game-card" onclick="loadGame('https://emulatoronline.com/mario-games/')">
+                    <div class="thumb">🍄</div>
+                    <div class="title">MARIO</div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
-        const searchInput = document.getElementById('solarisSearch');
-        const browser = document.getElementById('browser-container');
+        const display = document.getElementById('display-container');
         const gamesSection = document.getElementById('games-section');
-        const frame = document.getElementById('searchFrame');
+        const frame = document.getElementById('mainFrame');
 
-        // Search Function
-        searchInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                const query = searchInput.value;
-                if (query) {
-                    // Switch to browser mode
-                    gamesSection.style.display = 'none';
-                    browser.style.display = 'flex';
-                    // Use DuckDuckGo
-                    frame.src = `https://duckduckgo.com/?q=${encodeURIComponent(query)}&kp=-1&kl=us-en`;
-                }
-            }
-        });
+        // Function to load a game into the Solaris window
+        function loadGame(url) {
+            gamesSection.style.display = 'none';
+            display.style.display = 'flex';
+            frame.src = url;
+        }
 
-        // Function to go back to games
+        // Function to return to main menu
         function goHome() {
-            browser.style.display = 'none';
+            display.style.display = 'none';
             gamesSection.style.display = 'block';
             frame.src = "";
-            searchInput.value = "";
         }
-    </script>
 
+        // Search logic
+        document.getElementById('solarisSearch').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const query = this.value;
+                loadGame(`https://duckduckgo.com/?q=${encodeURIComponent(query)}`);
+            }
+        });
+    </script>
 </body>
 </html>
