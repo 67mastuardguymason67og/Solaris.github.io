@@ -2,196 +2,99 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLARIS | Hub</title>
+    <title>SOLARIS HUB</title>
     <style>
-        :root {
-            --solaris-yellow: #ffff00;
-            --bg-dark: #0d0d12;
-            --sidebar-bg: #15151e;
-            --card-bg: #1a1a24;
-        }
-
         body {
-            background-color: var(--bg-dark);
+            background-color: #0d0d12;
             color: white;
             font-family: 'Impact', sans-serif;
             margin: 0;
             display: flex;
             height: 100vh;
-            overflow: hidden;
         }
-
-        /* --- SIDEBAR --- */
+        /* Sidebar */
         .sidebar {
-            width: 80px;
-            background-color: var(--sidebar-bg);
-            border-right: 2px solid var(--solaris-yellow);
+            width: 70px;
+            background: #15151e;
+            border-right: 2px solid #ffff00;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-top: 20px;
-            gap: 30px;
-            flex-shrink: 0;
         }
-
-        .nav-icon {
-            font-size: 1.8rem;
-            color: #444;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .nav-icon:hover, .nav-icon.active {
-            color: var(--solaris-yellow);
-            text-shadow: 0 0 10px var(--solaris-yellow);
-        }
-
-        /* --- MAIN CONTENT --- */
-        .main-content {
+        /* Main Area */
+        .main {
             flex: 1;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            padding: 25px;
-            position: relative;
-            overflow: hidden;
         }
-
-        .header-logo {
-            background-color: var(--solaris-yellow);
+        .logo {
+            background: #ffff00;
             color: black;
-            display: inline-block;
-            padding: 10px 35px;
-            font-size: 2.5rem;
-            border: 4px solid black;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
-            cursor: pointer;
+            padding: 10px 30px;
+            font-size: 2rem;
             width: fit-content;
+            cursor: pointer;
+            margin-bottom: 20px;
         }
-
-        .search-box {
-            width: 100%;
-            max-width: 500px;
-            background: #222;
-            border: 2px solid #333;
-            padding: 15px;
-            color: white;
-            font-family: sans-serif;
-            font-size: 1rem;
-            border-radius: 5px;
-            margin-bottom: 25px;
-            outline: none;
-        }
-
-        /* --- DISPLAY AREA --- */
-        #display-container {
-            display: none; 
+        /* The Game Box */
+        #content-frame {
+            display: none;
             flex: 1;
-            width: 100%;
-            height: 100%;
-            border: 3px solid var(--solaris-yellow);
-            border-radius: 10px;
-            background: #000;
-            overflow: hidden;
+            border: 3px solid #ffff00;
         }
-
         iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
-
-        /* --- GAMES SECTION --- */
-        #games-section {
-            display: block;
-            overflow-y: auto;
-        }
-
-        .game-grid {
+        /* Game Cards */
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 20px;
         }
-
-        .game-card {
-            background: var(--card-bg);
+        .card {
+            background: #1a1a24;
             border: 1px solid #333;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 20px;
             text-align: center;
-            transition: 0.3s;
-            overflow: hidden;
+            cursor: pointer;
         }
-
-        .game-card:hover { border-color: var(--solaris-yellow); transform: scale(1.05); }
-        .thumb { height: 110px; background: #252530; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
-        .title { padding: 10px; font-size: 1rem; background: #1a1a24; }
-
+        .card:hover { border-color: #ffff00; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="nav-icon active" onclick="goHome()">🏠</div>
-        <div class="nav-icon" onclick="goHome()">🎮</div>
+        <div style="font-size:2rem; cursor:pointer;" onclick="location.reload()">🏠</div>
     </div>
 
-    <div class="main-content">
-        <div class="header-logo" onclick="goHome()">SOLARIS</div>
+    <div class="main">
+        <div class="logo" onclick="location.reload()">SOLARIS</div>
         
-        <input type="text" id="solarisSearch" class="search-box" placeholder="SEARCH DUCKDUCKGO...">
-
-        <div id="display-container">
-            <iframe id="mainFrame" src=""></iframe>
+        <div id="content-frame">
+            <iframe id="ifr"></iframe>
         </div>
 
-        <div id="games-section">
-            <h2 style="border-left: 5px solid yellow; padding-left:10px;">GAMES</h2>
-            <div class="game-grid">
-                
-                <div class="game-card" onclick="loadContent('snake.html')">
-                    <div class="thumb">🐍</div>
-                    <div class="title">SNAKE</div>
+        <div id="game-list">
+            <h2>GAMES</h2>
+            <div class="grid">
+                <div class="card" onclick="openGame('snake.html')">
+                    <div style="font-size:2rem">🐍</div>
+                    <div>SNAKE</div>
                 </div>
-
-                <div class="game-card" onclick="loadContent('https://play2048.co/')">
-                    <div class="thumb">🔢</div>
-                    <div class="title">2048</div>
-                </div>
-
             </div>
         </div>
     </div>
 
     <script>
-        const display = document.getElementById('display-container');
-        const gamesSection = document.getElementById('games-section');
-        const frame = document.getElementById('mainFrame');
-        const searchInput = document.getElementById('solarisSearch');
-
-        function loadContent(url) {
-            gamesSection.style.display = 'none';
-            display.style.display = 'flex';
-            frame.src = url;
+        function openGame(url) {
+            document.getElementById('game-list').style.display = 'none';
+            document.getElementById('content-frame').style.display = 'block';
+            document.getElementById('ifr').src = url;
         }
-
-        function goHome() {
-            display.style.display = 'none';
-            gamesSection.style.display = 'block';
-            frame.src = "";
-            searchInput.value = "";
-        }
-
-        searchInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                const query = searchInput.value;
-                if (query) {
-                    // Using a non-blocking DuckDuckGo parameter
-                    loadContent(`https://duckduckgo.com/?q=${encodeURIComponent(query)}&kp=-1`);
-                }
-            }
-        });
     </script>
 </body>
 </html>
