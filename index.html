@@ -36,8 +36,8 @@
         }
 
         .nav-icon {
-            font-size: 1.5rem;
-            color: #666;
+            font-size: 1.8rem;
+            color: #444;
             cursor: pointer;
             transition: 0.3s;
         }
@@ -50,124 +50,161 @@
         /* --- MAIN CONTENT --- */
         .main-content {
             flex: 1;
-            padding: 40px;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            position: relative;
         }
 
         .header-logo {
             background-color: var(--solaris-yellow);
             color: black;
             display: inline-block;
-            padding: 10px 40px;
-            font-size: 3rem;
+            padding: 10px 35px;
+            font-size: 2.5rem;
             border: 4px solid black;
             margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 0, 0.4);
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
+            cursor: pointer;
+            width: fit-content;
         }
 
         .search-box {
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             background: #222;
             border: 2px solid #333;
             padding: 15px;
             color: white;
             font-family: sans-serif;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             border-radius: 5px;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
             outline: none;
-            display: block;
         }
 
         .search-box:focus {
             border-color: var(--solaris-yellow);
         }
 
-        /* --- GAME GRID --- */
+        /* --- SEARCH BROWSER AREA --- */
+        #browser-container {
+            display: none; /* Starts hidden */
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--solaris-yellow);
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- GAMES SECTION --- */
+        #games-section {
+            display: block;
+            overflow-y: auto;
+        }
+
         .grid-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--solaris-yellow);
-            padding-left: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-left: 6px solid var(--solaris-yellow);
+            padding-left: 12px;
             text-transform: uppercase;
         }
 
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 20px;
         }
 
         .game-card {
             background: var(--card-bg);
             border: 1px solid #333;
-            border-radius: 10px;
-            overflow: hidden;
+            border-radius: 8px;
             text-decoration: none;
             color: white;
-            transition: 0.3s;
             text-align: center;
+            transition: 0.3s;
+            overflow: hidden;
         }
 
         .game-card:hover {
-            transform: translateY(-5px);
             border-color: var(--solaris-yellow);
-            box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.1);
         }
 
-        .thumb {
-            height: 120px;
-            background: #252530;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-        }
+        .thumb { height: 110px; background: #252530; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+        .title { padding: 10px; font-size: 1rem; background: #1a1a24; border-top: 1px solid #333; }
 
-        .title {
-            padding: 10px;
-            font-size: 1.1rem;
-            background: #222;
-        }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="nav-icon active">🏠</div>
-        <div class="nav-icon">🎮</div>
-        <div class="nav-icon">⭐</div>
-        <div class="nav-icon">⚙️</div>
+        <div class="nav-icon active" onclick="goHome()" title="Home">🏠</div>
+        <div class="nav-icon" title="Games">🎮</div>
+        <div class="nav-icon" title="Favorites">⭐</div>
+        <div class="nav-icon" title="Settings">⚙️</div>
     </div>
 
     <div class="main-content">
-        <div class="header-logo">SOLARIS</div>
+        <div class="header-logo" onclick="goHome()">SOLARIS</div>
         
-        <input type="text" id="googleSearch" class="search-box" placeholder="TYPE TO SEARCH GOOGLE...">
+        <input type="text" id="solarisSearch" class="search-box" placeholder="SEARCH DUCKDUCKGO...">
 
-        <div class="grid-title">GAMES</div>
+        <div id="browser-container">
+            <iframe id="searchFrame" src=""></iframe>
+        </div>
 
-        <div class="game-grid">
-            <a href="#" class="game-card"><div class="thumb">🐍</div><div class="title">SNAKE</div></a>
-            <a href="#" class="game-card"><div class="thumb">🏎️</div><div class="title">DRIFT</div></a>
-            <a href="#" class="game-card"><div class="thumb">📦</div><div class="title">BLOCKS</div></a>
-            <a href="#" class="game-card"><div class="thumb">🔫</div><div class="title">EV.IO</div></a>
-            <a href="#" class="game-card"><div class="thumb">🏀</div><div class="title">HOOPS</div></a>
+        <div id="games-section">
+            <div class="grid-title">TRENDING GAMES</div>
+            <div class="game-grid">
+                <a href="#" class="game-card"><div class="thumb">🐍</div><div class="title">SNAKE</div></a>
+                <a href="#" class="game-card"><div class="thumb">🏎️</div><div class="title">DRIFT</div></a>
+                <a href="#" class="game-card"><div class="thumb">📦</div><div class="title">BLOCKS</div></a>
+                <a href="#" class="game-card"><div class="thumb">🔫</div><div class="title">EV.IO</div></a>
+                <a href="#" class="game-card"><div class="thumb">⚔️</div><div class="title">ZOMBS</div></a>
+                <a href="#" class="game-card"><div class="thumb">🏀</div><div class="title">HOOPS</div></a>
+            </div>
         </div>
     </div>
 
     <script>
-        const searchInput = document.getElementById('googleSearch');
+        const searchInput = document.getElementById('solarisSearch');
+        const browser = document.getElementById('browser-container');
+        const gamesSection = document.getElementById('games-section');
+        const frame = document.getElementById('searchFrame');
+
+        // Search Function
         searchInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 const query = searchInput.value;
                 if (query) {
-                    window.open('https://www.google.com/search?q=' + encodeURIComponent(query), '_blank');
+                    // Switch to browser mode
+                    gamesSection.style.display = 'none';
+                    browser.style.display = 'flex';
+                    // Use DuckDuckGo
+                    frame.src = `https://duckduckgo.com/?q=${encodeURIComponent(query)}&kp=-1&kl=us-en`;
                 }
             }
         });
+
+        // Function to go back to games
+        function goHome() {
+            browser.style.display = 'none';
+            gamesSection.style.display = 'block';
+            frame.src = "";
+            searchInput.value = "";
+        }
     </script>
 
 </body>
