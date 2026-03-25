@@ -7,6 +7,8 @@
         :root {
             --solaris-yellow: #ffff00;
             --bg-dark: #0d0d12;
+            --sidebar-bg: #15151e;
+            --card-bg: #1a1a24;
         }
 
         body {
@@ -22,16 +24,26 @@
         /* Sidebar */
         .sidebar {
             width: 70px;
-            background: #15151e;
+            background: var(--sidebar-bg);
             border-right: 2px solid var(--solaris-yellow);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-top: 20px;
+            gap: 25px;
             flex-shrink: 0;
         }
 
-        /* Main Area */
+        .nav-icon {
+            font-size: 1.8rem;
+            color: #444;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-icon:hover { color: var(--solaris-yellow); }
+
+        /* Main Content */
         .main {
             flex: 1;
             padding: 25px;
@@ -47,81 +59,89 @@
             font-size: 2.5rem;
             width: fit-content;
             cursor: pointer;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
+            margin-bottom: 15px;
+            border: 4px solid black;
         }
 
-        /* The Game Display Window */
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            background: #222;
+            border: 2px solid #333;
+            padding: 12px;
+            color: white;
+            margin-bottom: 20px;
+            outline: none;
+            font-family: sans-serif;
+        }
+
+        .search-box:focus { border-color: var(--solaris-yellow); }
+
+        /* Game Display */
         #display-window {
             display: none;
             flex: 1;
             border: 3px solid var(--solaris-yellow);
-            border-radius: 10px;
             background: #000;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        /* Game Grid */
-        #game-grid-container {
-            display: block;
-            overflow-y: auto;
-        }
-
+        /* Grid */
+        #game-grid-container { display: block; overflow-y: auto; }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 20px;
         }
 
         .card {
-            background: #1a1a24;
+            background: var(--card-bg);
             border: 1px solid #333;
             border-radius: 8px;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
-            overflow: hidden;
         }
 
-        .card:hover {
-            border-color: var(--solaris-yellow);
-            transform: translateY(-5px);
-        }
-
-        .thumb { height: 110px; background: #252530; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
-        .title { padding: 10px; font-size: 1rem; background: #1a1a24; border-top: 1px solid #333; }
+        .card:hover { border-color: var(--solaris-yellow); transform: translateY(-3px); }
+        .thumb { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: #252530; }
+        .title { padding: 10px; font-size: 0.9rem; background: #1a1a24; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div style="font-size:2rem; cursor:pointer;" onclick="goHome()">🏠</div>
+        <div class="nav-icon" onclick="goHome()">🏠</div>
+        <div class="nav-icon" onclick="goHome()">🎮</div>
     </div>
 
     <div class="main">
         <div class="logo" onclick="goHome()">SOLARIS</div>
         
+        <input type="text" id="searchInput" class="search-box" placeholder="Search DuckDuckGo...">
+
         <div id="display-window">
             <iframe id="main-frame" src="" sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads allow-storage-access-by-user-activation"></iframe>
         </div>
 
         <div id="game-grid-container">
-            <h2 style="border-left: 5px solid #ffff00; padding-left: 10px;">GAMES</h2>
+            <h2 style="border-left: 5px solid #ffff00; padding-left: 10px; text-transform: uppercase;">Library</h2>
             <div class="grid">
                 
-                <div class="card" onclick="openGame('https://or321.github.io/choppy-orc-autosplitter/')">
+                <div class="card" onclick="openContent('https://or321.github.io/choppy-orc-autosplitter/')">
                     <div class="thumb">🪓</div>
                     <div class="title">CHOPPY ORC</div>
                 </div>
 
-                <div class="card" onclick="openGame('snake.html')">
+                <div class="card" onclick="openContent('snake.html')">
                     <div class="thumb">🐍</div>
                     <div class="title">SNAKE</div>
+                </div>
+
+                <div class="card" onclick="openContent('https://play2048.co/')">
+                    <div class="thumb">🔢</div>
+                    <div class="title">2048</div>
                 </div>
 
             </div>
@@ -132,8 +152,9 @@
         const grid = document.getElementById('game-grid-container');
         const display = document.getElementById('display-window');
         const frame = document.getElementById('main-frame');
+        const search = document.getElementById('searchInput');
 
-        function openGame(url) {
+        function openContent(url) {
             grid.style.display = 'none';
             display.style.display = 'flex';
             frame.src = url;
@@ -144,6 +165,12 @@
             grid.style.display = 'block';
             frame.src = "";
         }
+
+        search.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                openContent(`https://duckduckgo.com/?q=${encodeURIComponent(search.value)}&kp=-1`);
+            }
+        });
     </script>
 </body>
 </html>
