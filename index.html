@@ -3,106 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Private Arcade</title>
+    <title>SOLARIS | Arcade</title>
     <style>
-        /* Modern Dark Theme */
+        /* Base Styling */
         body {
-            background-color: #0f111a;
+            background-color: #0d0d12;
             color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Impact', 'Arial Black', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        h1 {
+        /* The Bold Yellow Header */
+        .header-box {
+            background-color: #ffff00;
+            color: black;
+            padding: 20px 60px;
+            margin-top: 50px;
+            border: 4px solid black;
+            font-size: 4rem;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
+        }
+
+        /* The Search Bar Area */
+        .search-container {
+            width: 80%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .search-bar {
+            width: 100%;
+            background-color: #444;
+            color: white;
+            border: 3px solid black;
+            padding: 15px;
+            font-size: 1.5rem;
             text-align: center;
-            color: #00ffcc;
-            text-shadow: 0 0 10px #00ffcc;
-            margin-bottom: 40px;
+            font-family: 'Impact', sans-serif;
+            transition: all 0.3s;
         }
 
-        /* The Grid Layout */
+        .search-bar:focus {
+            outline: none;
+            background-color: #555;
+            border-color: #ffff00;
+            box-shadow: 0 0 15px #ffff00;
+        }
+
+        /* Divider Line */
+        .divider {
+            width: 100%;
+            height: 4px;
+            background-color: black;
+            margin-top: 30px;
+        }
+
+        /* Games Section Title */
+        .games-title {
+            font-size: 3rem;
+            margin: 30px 0;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        /* The Modern Grid System */
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            width: 90%;
             max-width: 1200px;
-            margin: 0 auto;
+            padding-bottom: 50px;
         }
 
-        /* The Game Cards */
+        /* The Modern Game Cards */
         .game-card {
-            background: #1c1f2b;
-            border: 1px solid #333;
-            border-radius: 12px;
+            background: #1a1a24;
+            border: 2px solid #333;
+            border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.3s, border-color 0.3s;
-            cursor: pointer;
             text-decoration: none;
             color: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
         }
 
         .game-card:hover {
-            transform: translateY(-5px);
-            border-color: #00ffcc;
-            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.2);
+            transform: scale(1.05);
+            border-color: #ffff00;
+            box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2);
         }
 
         .thumbnail {
-            width: 100%;
-            height: 150px;
-            background: #2a2e3f;
+            height: 160px;
+            background: #252530;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 3rem;
+            border-bottom: 2px solid #333;
+        }
+
+        .game-card:hover .thumbnail {
+            background: #2d2d3d;
         }
 
         .game-info {
             padding: 15px;
             text-align: center;
-        }
-
-        .game-title {
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
-    <h1>UNBLOCKED HUB</h1>
+    <div class="header-box">SOLARIS</div>
+
+    <div class="search-container">
+        <input type="text" class="search-bar" placeholder="SEARCH ON GOOGLE">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="games-title">GAMES</div>
 
     <div class="game-grid">
-        
         <a href="#" class="game-card">
             <div class="thumbnail">🐍</div>
-            <div class="game-info">
-                <div class="game-title">Snake Classic</div>
-            </div>
+            <div class="game-info">SNAKE.IO</div>
         </a>
 
         <a href="#" class="game-card">
-            <div class="thumbnail">🧱</div>
-            <div class="game-info">
-                <div class="game-title">Tetris</div>
-            </div>
+            <div class="thumbnail">🎨</div>
+            <div class="game-info">GULPER.IO</div>
         </a>
 
         <a href="#" class="game-card">
-            <div class="thumbnail">⚽</div>
-            <div class="game-info">
-                <div class="game-title">World Cup</div>
-            </div>
+            <div class="thumbnail">⚔️</div>
+            <div class="game-info">EV.IO</div>
         </a>
 
         <a href="#" class="game-card">
-            <div class="thumbnail">🚀</div>
-            <div class="game-info">
-                <div class="game-title">Space Invaders</div>
-            </div>
+            <div class="thumbnail">🌌</div>
+            <div class="game-info">ASTEROIDS</div>
         </a>
-
     </div>
 
 </body>
