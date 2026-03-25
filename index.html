@@ -4,96 +4,145 @@
     <meta charset="UTF-8">
     <title>SOLARIS HUB</title>
     <style>
+        :root {
+            --solaris-yellow: #ffff00;
+            --bg-dark: #0d0d12;
+        }
+
         body {
-            background-color: #0d0d12;
+            background-color: var(--bg-dark);
             color: white;
             font-family: 'Impact', sans-serif;
             margin: 0;
             display: flex;
             height: 100vh;
+            overflow: hidden;
         }
+
         /* Sidebar */
         .sidebar {
             width: 70px;
             background: #15151e;
-            border-right: 2px solid #ffff00;
+            border-right: 2px solid var(--solaris-yellow);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-top: 20px;
+            flex-shrink: 0;
         }
+
         /* Main Area */
         .main {
             flex: 1;
-            padding: 20px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
+
         .logo {
-            background: #ffff00;
+            background: var(--solaris-yellow);
             color: black;
             padding: 10px 30px;
-            font-size: 2rem;
+            font-size: 2.5rem;
             width: fit-content;
             cursor: pointer;
             margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
         }
-        /* The Game Box */
-        #content-frame {
+
+        /* The Game Display Window */
+        #display-window {
             display: none;
             flex: 1;
-            border: 3px solid #ffff00;
+            border: 3px solid var(--solaris-yellow);
+            border-radius: 10px;
+            background: #000;
         }
+
         iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
-        /* Game Cards */
+
+        /* Game Grid */
+        #game-grid-container {
+            display: block;
+            overflow-y: auto;
+        }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 20px;
         }
+
         .card {
             background: #1a1a24;
             border: 1px solid #333;
-            padding: 20px;
+            border-radius: 8px;
             text-align: center;
             cursor: pointer;
+            transition: 0.3s;
+            overflow: hidden;
         }
-        .card:hover { border-color: #ffff00; }
+
+        .card:hover {
+            border-color: var(--solaris-yellow);
+            transform: translateY(-5px);
+        }
+
+        .thumb { height: 110px; background: #252530; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+        .title { padding: 10px; font-size: 1rem; background: #1a1a24; border-top: 1px solid #333; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div style="font-size:2rem; cursor:pointer;" onclick="location.reload()">🏠</div>
+        <div style="font-size:2rem; cursor:pointer;" onclick="goHome()">🏠</div>
     </div>
 
     <div class="main">
-        <div class="logo" onclick="location.reload()">SOLARIS</div>
+        <div class="logo" onclick="goHome()">SOLARIS</div>
         
-        <div id="content-frame">
-            <iframe id="ifr"></iframe>
+        <div id="display-window">
+            <iframe id="main-frame" src="" sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads allow-storage-access-by-user-activation"></iframe>
         </div>
 
-        <div id="game-list">
-            <h2>GAMES</h2>
+        <div id="game-grid-container">
+            <h2 style="border-left: 5px solid #ffff00; padding-left: 10px;">GAMES</h2>
             <div class="grid">
-                <div class="card" onclick="openGame('snake.html')">
-                    <div style="font-size:2rem">🐍</div>
-                    <div>SNAKE</div>
+                
+                <div class="card" onclick="openGame('https://or321.github.io/choppy-orc-autosplitter/')">
+                    <div class="thumb">🪓</div>
+                    <div class="title">CHOPPY ORC</div>
                 </div>
+
+                <div class="card" onclick="openGame('snake.html')">
+                    <div class="thumb">🐍</div>
+                    <div class="title">SNAKE</div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
+        const grid = document.getElementById('game-grid-container');
+        const display = document.getElementById('display-window');
+        const frame = document.getElementById('main-frame');
+
         function openGame(url) {
-            document.getElementById('game-list').style.display = 'none';
-            document.getElementById('content-frame').style.display = 'block';
-            document.getElementById('ifr').src = url;
+            grid.style.display = 'none';
+            display.style.display = 'flex';
+            frame.src = url;
+        }
+
+        function goHome() {
+            display.style.display = 'none';
+            grid.style.display = 'block';
+            frame.src = "";
         }
     </script>
 </body>
