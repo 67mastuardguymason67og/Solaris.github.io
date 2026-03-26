@@ -82,11 +82,8 @@
             outline: none;
         }
 
-        .search-bar:focus {
-            border-color: var(--solaris-yellow);
-        }
+        .search-bar:focus { border-color: var(--solaris-yellow); }
 
-        /* --- DISPLAY WINDOW --- */
         #display-window {
             display: none; 
             flex: 1;
@@ -98,17 +95,9 @@
             overflow: hidden;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        /* --- GAMES GRID --- */
-        #games-container {
-            display: block;
-            overflow-y: auto;
-        }
+        #games-container { display: block; overflow-y: auto; }
 
         .section-label {
             font-size: 1.5rem;
@@ -156,7 +145,7 @@
     <div class="main-content">
         <div class="header-logo" onclick="goHome()">SOLARIS</div>
         
-        <input type="text" id="searchInput" class="search-bar" placeholder="Enter Search (Bypasses Blocks)...">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Enter Search (Popup Mode)...">
 
         <div id="display-window">
             <iframe id="main-frame" src=""></iframe>
@@ -169,6 +158,11 @@
                 <div class="card" onclick="openContent('tetris.html')">
                     <div class="thumb">🧱</div>
                     <div class="title">TETRIS</div>
+                </div>
+
+                <div class="card" onclick="openContent('Minecraft.html')">
+                    <div class="thumb">⛏️</div>
+                    <div class="title">MINECRAFT</div>
                 </div>
 
                 <div class="card" onclick="openContent('snake.html')">
