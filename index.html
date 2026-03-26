@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SOLARIS HUB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLARIS | Hub</title>
     <style>
         :root {
             --solaris-yellow: #ffff00;
@@ -14,99 +15,134 @@
         body {
             background-color: var(--bg-dark);
             color: white;
-            font-family: 'Impact', sans-serif;
+            font-family: 'Impact', 'Arial Black', sans-serif;
             margin: 0;
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Sidebar */
+        /* --- SIDEBAR --- */
         .sidebar {
-            width: 70px;
-            background: var(--sidebar-bg);
+            width: 75px;
+            background-color: var(--sidebar-bg);
             border-right: 2px solid var(--solaris-yellow);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 20px;
-            gap: 25px;
+            padding-top: 25px;
+            gap: 35px;
             flex-shrink: 0;
         }
 
         .nav-icon {
-            font-size: 1.8rem;
-            color: #444;
+            font-size: 2rem;
+            color: #333;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.2s;
         }
 
-        .nav-icon:hover { color: var(--solaris-yellow); }
+        .nav-icon:hover {
+            color: var(--solaris-yellow);
+            filter: drop-shadow(0 0 5px var(--solaris-yellow));
+        }
 
-        /* Main Content */
-        .main {
+        /* --- MAIN AREA --- */
+        .main-content {
             flex: 1;
-            padding: 25px;
             display: flex;
             flex-direction: column;
+            padding: 30px;
             overflow: hidden;
         }
 
-        .logo {
-            background: var(--solaris-yellow);
+        .header-logo {
+            background-color: var(--solaris-yellow);
             color: black;
-            padding: 10px 30px;
-            font-size: 2.5rem;
-            width: fit-content;
-            cursor: pointer;
-            margin-bottom: 15px;
+            display: inline-block;
+            padding: 10px 40px;
+            font-size: 2.8rem;
             border: 4px solid black;
-        }
-
-        .search-box {
-            width: 100%;
-            max-width: 400px;
-            background: #222;
-            border: 2px solid #333;
-            padding: 12px;
-            color: white;
             margin-bottom: 20px;
-            outline: none;
-            font-family: sans-serif;
+            cursor: pointer;
+            width: fit-content;
+            letter-spacing: 2px;
         }
 
-        .search-box:focus { border-color: var(--solaris-yellow); }
+        .search-bar {
+            width: 100%;
+            max-width: 450px;
+            background: #222;
+            border: 2px solid #444;
+            padding: 15px;
+            color: white;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            outline: none;
+        }
 
-        /* Game Display */
+        .search-bar:focus {
+            border-color: var(--solaris-yellow);
+        }
+
+        /* --- DISPLAY WINDOW --- */
         #display-window {
-            display: none;
+            display: none; 
             flex: 1;
+            width: 100%;
+            height: 100%;
             border: 3px solid var(--solaris-yellow);
             background: #000;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        iframe { width: 100%; height: 100%; border: none; }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
-        /* Grid */
-        #game-grid-container { display: block; overflow-y: auto; }
+        /* --- GAMES GRID --- */
+        #games-container {
+            display: block;
+            overflow-y: auto;
+        }
+
+        .section-label {
+            font-size: 1.5rem;
+            border-left: 6px solid var(--solaris-yellow);
+            padding-left: 15px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 25px;
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid #333;
-            border-radius: 8px;
-            text-align: center;
+            border-radius: 10px;
             cursor: pointer;
-            transition: 0.3s;
+            text-align: center;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
         }
 
-        .card:hover { border-color: var(--solaris-yellow); transform: translateY(-3px); }
-        .thumb { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: #252530; }
-        .title { padding: 10px; font-size: 0.9rem; background: #1a1a24; }
+        .card:hover {
+            border-color: var(--solaris-yellow);
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .thumb { height: 110px; background: #22222e; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .title { padding: 12px; font-size: 1rem; background: #1a1a24; border-top: 1px solid #333; }
+
     </style>
 </head>
 <body>
@@ -114,34 +150,35 @@
     <div class="sidebar">
         <div class="nav-icon" onclick="goHome()">🏠</div>
         <div class="nav-icon" onclick="goHome()">🎮</div>
+        <div class="nav-icon" style="margin-top: auto; padding-bottom: 30px;">⚙️</div>
     </div>
 
-    <div class="main">
-        <div class="logo" onclick="goHome()">SOLARIS</div>
+    <div class="main-content">
+        <div class="header-logo" onclick="goHome()">SOLARIS</div>
         
-        <input type="text" id="searchInput" class="search-box" placeholder="Search DuckDuckGo...">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Enter Search (Bypasses Blocks)...">
 
         <div id="display-window">
-            <iframe id="main-frame" src="" sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads allow-storage-access-by-user-activation"></iframe>
+            <iframe id="main-frame" src=""></iframe>
         </div>
 
-        <div id="game-grid-container">
-            <h2 style="border-left: 5px solid #ffff00; padding-left: 10px; text-transform: uppercase;">Library</h2>
+        <div id="games-container">
+            <div class="section-label">Library</div>
             <div class="grid">
                 
-                <div class="card" onclick="openContent('https://or321.github.io/choppy-orc-autosplitter/')">
-                    <div class="thumb">🪓</div>
-                    <div class="title">CHOPPY ORC</div>
-                </div>
-
                 <div class="card" onclick="openContent('snake.html')">
                     <div class="thumb">🐍</div>
                     <div class="title">SNAKE</div>
                 </div>
 
-                <div class="card" onclick="openContent('https://play2048.co/')">
+                <div class="card" onclick="openContent('2048.html')">
                     <div class="thumb">🔢</div>
                     <div class="title">2048</div>
+                </div>
+
+                <div class="card" onclick="openContent('choppy.html')">
+                    <div class="thumb">🪓</div>
+                    <div class="title">CHOPPY ORC</div>
                 </div>
 
             </div>
@@ -149,26 +186,33 @@
     </div>
 
     <script>
-        const grid = document.getElementById('game-grid-container');
-        const display = document.getElementById('display-window');
-        const frame = document.getElementById('main-frame');
-        const search = document.getElementById('searchInput');
+        const gamesContainer = document.getElementById('games-container');
+        const displayWindow = document.getElementById('display-window');
+        const mainFrame = document.getElementById('main-frame');
+        const searchInput = document.getElementById('searchInput');
 
+        // Function to load a game into the hub
         function openContent(url) {
-            grid.style.display = 'none';
-            display.style.display = 'flex';
-            frame.src = url;
+            gamesContainer.style.display = 'none';
+            displayWindow.style.display = 'flex';
+            mainFrame.src = url;
         }
 
+        // Function to reset back to home
         function goHome() {
-            display.style.display = 'none';
-            grid.style.display = 'block';
-            frame.src = "";
+            displayWindow.style.display = 'none';
+            gamesContainer.style.display = 'block';
+            mainFrame.src = "";
+            searchInput.value = "";
         }
 
-        search.addEventListener('keypress', function (e) {
+        // Search logic - Opens in a popup to avoid "Blocked" errors
+        searchInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                openContent(`https://duckduckgo.com/?q=${encodeURIComponent(search.value)}&kp=-1`);
+                const query = encodeURIComponent(searchInput.value);
+                if (query) {
+                    window.open(`https://duckduckgo.com/?q=${query}`, 'SolarisSearch', 'width=1000,height=700');
+                }
             }
         });
     </script>
