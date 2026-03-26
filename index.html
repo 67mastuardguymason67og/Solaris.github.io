@@ -166,6 +166,11 @@
             <div class="section-label">Library</div>
             <div class="grid">
                 
+                <div class="card" onclick="openContent('tetris.html')">
+                    <div class="thumb">🧱</div>
+                    <div class="title">TETRIS</div>
+                </div>
+
                 <div class="card" onclick="openContent('snake.html')">
                     <div class="thumb">🐍</div>
                     <div class="title">SNAKE</div>
@@ -191,14 +196,12 @@
         const mainFrame = document.getElementById('main-frame');
         const searchInput = document.getElementById('searchInput');
 
-        // Function to load a game into the hub
         function openContent(url) {
             gamesContainer.style.display = 'none';
             displayWindow.style.display = 'flex';
             mainFrame.src = url;
         }
 
-        // Function to reset back to home
         function goHome() {
             displayWindow.style.display = 'none';
             gamesContainer.style.display = 'block';
@@ -206,7 +209,6 @@
             searchInput.value = "";
         }
 
-        // Search logic - Opens in a popup to avoid "Blocked" errors
         searchInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 const query = encodeURIComponent(searchInput.value);
